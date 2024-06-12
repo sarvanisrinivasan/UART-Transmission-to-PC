@@ -1,0 +1,30 @@
+#include<LPC21xx.h>
+void UART_CONFIG(void);
+void UART_STR(char s[50]);
+void UART_TX(char d);
+int main()
+{
+	  UART_CONFIG();
+	  UART_STR(" Sarvani is a B.E Graduate");
+}
+void UART_CONFIG()                // To configure UART transmission format
+{
+	     PINSEL0=0X05;
+	     U0LCR=0X83;
+	     U0DLL=97;
+	     U0LCR=0X03;
+}
+void UART_STR(char s[50])        // To transmit each character of string
+{
+	    int i=0;
+	    while(s[i]!=0)
+			{
+				   UART_TX(s[i]);
+				   i++;
+			} 
+}
+void UART_TX(char d)            // To transmit
+{
+	     while(((U0LSR>>5)&1)==0);
+			 U0THR=d;
+}
